@@ -2,24 +2,26 @@ from src.player import Player
 from src.dungeon import create_dungeon
 from src.activity import hunt, fish
 
+
 def start_game():
     player = Player()
     current_room, treasure_room = create_dungeon()
     player.current_room = current_room
 
     player.clear_screen()
-    print(" Bienvenue dans le jeu de survie !")
+    print("Bienvenue dans le jeu de survie !")
     current_room.show_info()
 
     while player.pv > 0 and player.jour <= 12:
         player.show_stats()
+        print("\n Vous pouvez aller vers :", ", ".join(current_room.connections.keys()))
         action = input("\nAction ? (aller / inventaire / chasser / pecher / utiliser / se_reposer / quitter) : ").lower()
         player.clear_screen()
-
         day_over = False
 
         if action == "aller":
-            direction = input("Direction ? (nord/sud/est/ouest) : ").lower()
+            print("\nDirections disponibles :", ", ".join(current_room.connections.keys()))
+            direction = input(" Direction ? (nord/sud/est/ouest) : ").lower()
             if direction in current_room.connections:
                 current_room = current_room.connections[direction]
                 player.current_room = current_room
@@ -41,7 +43,6 @@ def start_game():
 
         elif action == "utiliser":
             item_name = input("Objet à utiliser ? ")
-            # placeholder pour utiliser item
             print(f"Vous utilisez {item_name}")
             player.decrease_stats("general")
 
@@ -64,4 +65,3 @@ def start_game():
 
     if player.pv <= 0:
         print(" Vous êtes mort avant la fin des 12 jours. Défaite.")
-
