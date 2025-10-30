@@ -4,48 +4,49 @@ class Player:
     def __init__(self):
         self.pv = 100
         self.faim = 100
-        self.soif = 100
         self.fatigue = 0
-        self.inventory = []
         self.jour = 1
-
-    def add_item(self, item):
-        self.inventory.append(item)
-        print(f" {item.name} ajouté à l'inventaire.")
-
-    def show_inventory(self):
-        if not self.inventory:
-            print("Votre inventaire est vide.")
-        else:
-            print(" Inventaire :", ", ".join([item.name for item in self.inventory]))
+        self.inventory = []
 
     def show_stats(self):
-        print(f"\n Jour: {self.jour}/12 |  PV: {self.pv} |  Faim: {self.faim} |  Soif: {self.soif} |  Fatigue: {self.fatigue}")
+        print(f"PV: {self.pv} | Faim: {self.faim} | Fatigue: {self.fatigue} | Jour: {self.jour}/12")
 
-    def next_day(self):
-        self.jour += 1
-        print(f"\n Le jour {self.jour} commence...")
-        self.faim -= 10
-        self.soif -= 5
-        self.fatigue += 10
-        if self.faim <= 0 or self.soif <= 0 or self.fatigue >= 100:
-            self.pv -= 15
-            print(" Vous souffrez des conditions de survie !")
+    def clear_screen(self):
+        os.system("cls" if os.name == "nt" else "clear")
+
+    def decrease_stats(self, action_type="general"):
+        # Faim
+        if action_type in ["general", "chasser", "pecher"]:
+            self.faim -= 5
+        # Fatigue
+        if action_type in ["general", "aller", "chasser", "pecher"]:
+            self.fatigue += 10
+        # PV si faim ou fatigue critique
+        if self.faim <= 0:
+            self.pv -= 10
+        if self.fatigue >= 100:
+            self.pv -= 5
+
         self.faim = max(0, min(self.faim, 100))
-        self.soif = max(0, min(self.soif, 100))
         self.fatigue = max(0, min(self.fatigue, 100))
 
     def rest(self):
-        print(" Vous vous reposez et réduisez votre fatigue.")
-        self.fatigue -= 20
-        if self.fatigue < 0:
-            self.fatigue = 0
+        if self.faim < 50:
+            print("🚫 Vous êtes trop affamé pour vous reposer !")
+            return False
+        print("💤 Vous vous reposez et réduisez votre fatigue.")
+        self.fatigue -= 30
+        self.fatigue = max(0, self.fatigue)
+        self.next_day()
+        return True
 
-    def decrease_stats(self):
-        self.faim -= 5
+    def next_day(self):
+        self.jour += 1
+        self.faim -= 10
         self.fatigue += 5
-        if self.faim <= 0 or self.fatigue >= 100:
+        if self.faim <= 0:
             self.pv -= 10
-
-    def clear_screen(self):
-        os.system('cls' if os.name == 'nt' else 'clear')
+        if self.fatigue >= 100:
+            self.pv -= 5
+        self.faim = max(0, self.faim)
+        self.fatigue = min(100, self.fatigue)
