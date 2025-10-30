@@ -8,7 +8,7 @@ def start_game():
     player.current_room = current_room
 
     player.clear_screen()
-    print("🏕️ Bienvenue dans le jeu de survie !")
+    print(" Bienvenue dans le jeu de survie !")
     current_room.show_info()
 
     while player.pv > 0 and player.jour <= 12:
@@ -25,7 +25,7 @@ def start_game():
                 player.current_room = current_room
                 current_room.show_info()
             else:
-                print("🚫 Impossible d'aller par là.")
+                print(" Impossible d'aller par là.")
             player.decrease_stats("aller")
 
         elif action == "inventaire":
@@ -49,19 +49,19 @@ def start_game():
             day_over = player.rest()
 
         elif action == "quitter":
-            print("👋 Vous quittez le jeu.")
+            print(" Vous quittez le jeu.")
             break
 
         else:
             print("Commande inconnue.")
 
         if day_over:
-            print(f"📅 Fin de la journée {player.jour-1}. Jour suivant : {player.jour}/12")
+            print(f" Fin de la journée {player.jour-1}. Jour suivant : {player.jour}/12")
 
         if current_room == treasure_room:
-            print("🏆 Vous avez trouvé le Trésor Sacré ! Victoire !")
+            print(" Vous avez trouvé le Trésor Sacré ! Victoire !")
             break
 
     if player.pv <= 0:
-        print("💀 Vous êtes mort avant la fin des 12 jours. Défaite.")
+        print(" Vous êtes mort avant la fin des 12 jours. Défaite.")
 
