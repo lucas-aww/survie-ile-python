@@ -1,31 +1,26 @@
-# 🏰 Donjon du Trésor Sacré
+# Jeu de survie sur une île
 
-Petit jeu textuel en Python où le joueur explore un donjon, combat des ennemis et cherche à atteindre la salle du trésor.
+## Objectif
+Survivre 12 jours sur une île déserte en gérant vos ressources vitales.
 
-## 🎮 Objectif
-Atteindre la **Salle du Trésor** et récupérer le **Trésor Sacré** sans mourir.
+## Jauges vitales
+- Faim : 0 = rassasié, 100 = affamé → game over
+- Soif : 0 = hydraté, 100 = déshydraté → game over
+- Énergie : 0 = épuisé → game over
+- PV : points de vie
 
-## ⚔️ Conditions
-- **Victoire** : atteindre la salle du Trésor et prendre le trésor.
-- **Défaite** : les PV du joueur tombent à 0 ou moins.
+## Actions possibles
+- `aller` : se déplacer entre zones
+- `inventaire` : afficher l’inventaire
+- `utiliser` : utiliser un objet (poisson, fruit, eau)
+- `chasser` : obtenir de la nourriture
+- `pecher` : obtenir de la nourriture
+- `se_reposer` : regagner de l’énergie (si faim et soif < 50)
+- `explorer` : déclenche événements aléatoires (pluie, rencontre animale, découverte de fruits)
+- `sauvegarder` : sauvegarder la partie dans un fichier JSON
+- `charger` : charger la partie depuis le fichier JSON
+- `quitter` : quitter le jeu
 
-## 🧱 Structure
-- `main.py` : point d’entrée du jeu.
-- `src/player.py` : gestion du joueur.
-- `src/room.py` : définition d’une pièce et des connexions.
-- `src/enemy.py` : définition des ennemis.
-- `src/item.py` : gestion des objets.
-- `src/dungeon.py` : création du plan du donjon.
-
-## 🚀 Lancement
+## Lancer le jeu
 ```bash
-
 python main.py
-# 🧭 Workflow Git - Projet Donjon du Trésor Sacré
-
-## ⚙️ Initialisation
-```bash
-git init
-git add .
-git commit -m "chore: initialisation du projet"
-git branch -M main
