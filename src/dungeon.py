@@ -1,32 +1,22 @@
 from src.room import Room
-from src.item import Item
-from src.enemy import Enemy
 
 def create_dungeon():
-    # Création des pièces
     entree = Room("Entrée", "Une grande porte de pierre marque le début du donjon.")
     couloir = Room("Couloir", "Un long couloir sombre et humide.")
-    epreuve = Room("Salle des Épreuves", "Des pièges et des énigmes à résoudre.")
     armurerie = Room("Armurerie", "Des armes anciennes reposent sur les murs.")
+    foret = Room("Forêt du Donjon", "Une clairière à l'extérieur du donjon.", can_hunt=True)
+    riviere = Room("Rivière", "Une rivière claire.", can_fish=True)
     tresor = Room("Salle du Trésor", "Le Trésor Sacré scintille dans la pénombre.")
 
-    # Connexions
     entree.connect("nord", couloir)
     couloir.connect("sud", entree)
-    couloir.connect("est", epreuve)
-    epreuve.connect("ouest", couloir)
-    epreuve.connect("nord", armurerie)
-    armurerie.connect("sud", epreuve)
-    armurerie.connect("est", tresor)
-    tresor.connect("ouest", armurerie)
-
-    # Objets
-    armurerie.items.append(Item("Épée", "weapon"))
-    epreuve.items.append(Item("Potion", "potion", 30))
-    tresor.items.append(Item("Trésor Sacré", "quest"))
-
-    # Ennemis
-    couloir.enemies.append(Enemy("Gobelin", 20, 10))
-    epreuve.enemies.append(Enemy("Squelette", 30, 15))
+    couloir.connect("est", armurerie)
+    armurerie.connect("ouest", couloir)
+    armurerie.connect("nord", foret)
+    foret.connect("sud", armurerie)
+    armurerie.connect("est", riviere)
+    riviere.connect("ouest", armurerie)
+    riviere.connect("nord", tresor)
+    tresor.connect("sud", riviere)
 
     return entree, tresor
