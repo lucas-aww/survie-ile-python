@@ -5,59 +5,63 @@ from src.activity import hunt, fish
 def start_game():
     player = Player()
     current_room, treasure_room = create_dungeon()
+    player.current_room = current_room
 
     player.clear_screen()
-    print(" Bienvenue dans le jeu de survie !")
+    print("🏕️ Bienvenue dans le jeu de survie !")
     current_room.show_info()
 
     while player.pv > 0 and player.jour <= 12:
         player.show_stats()
-        action = input("\nQue voulez-vous faire ? (aller / utiliser / inventaire / chasser / pecher / se_reposer / quitter) : ").lower()
+        action = input("\nAction ? (aller / inventaire / chasser / pecher / utiliser / se_reposer / quitter) : ").lower()
         player.clear_screen()
 
+        day_over = False
+
         if action == "aller":
-            direction = input("Direction ? (nord / sud / est / ouest) : ").lower()
+            direction = input("Direction ? (nord/sud/est/ouest) : ").lower()
             if direction in current_room.connections:
                 current_room = current_room.connections[direction]
+                player.current_room = current_room
                 current_room.show_info()
             else:
-                print(" Impossible d'aller par là.")
-            player.decrease_stats()
-
-        elif action == "utiliser":
-            item_name = input("Quel objet ? ")
-            for item in player.inventory:
-                if item.name.lower() == item_name.lower():
-                    item.use(player)
-                    player.inventory.remove(item)
-                    break
-            else:
-                print(" Objet introuvable dans votre inventaire.")
-            player.decrease_stats()
+                print("🚫 Impossible d'aller par là.")
+            player.decrease_stats("aller")
 
         elif action == "inventaire":
-            player.show_inventory()
+            print("Inventaire :", [i.name for i in player.inventory])
 
         elif action == "chasser":
-            hunt(player, current_room)
+            hunt(player)
+            player.decrease_stats("chasser")
 
         elif action == "pecher":
-            fish(player, current_room)
+            fish(player)
+            player.decrease_stats("pecher")
+
+        elif action == "utiliser":
+            item_name = input("Objet à utiliser ? ")
+            # placeholder pour utiliser item
+            print(f"Vous utilisez {item_name}")
+            player.decrease_stats("general")
 
         elif action == "se_reposer":
-            player.rest()
+            day_over = player.rest()
 
         elif action == "quitter":
-            print(" Vous quittez le jeu.")
+            print("👋 Vous quittez le jeu.")
             break
 
         else:
             print("Commande inconnue.")
 
-        # Fin de journée
-        player.next_day()
+        if day_over:
+            print(f"📅 Fin de la journée {player.jour-1}. Jour suivant : {player.jour}/12")
 
-    if player.pv > 0 and player.jour > 12:
-        print(" Félicitations ! Vous avez survécu 12 jours ! Victoire !")
-    elif player.pv <= 0:
-        print(" Vous êtes mort avant la fin des 12 jours. Défaite.")
+        if current_room == treasure_room:
+            print("🏆 Vous avez trouvé le Trésor Sacré ! Victoire !")
+            break
+
+    if player.pv <= 0:
+        print("💀 Vous êtes mort avant la fin des 12 jours. Défaite.")
+
