@@ -12,9 +12,6 @@ class Item:
             player.faim += self.heal
             player.fatigue -= 10
             print(f"🍖 Vous mangez {self.name} et regagnez {self.heal} points de faim.")
-        elif self.type == "drink":
-            player.soif += self.heal
-            print(f"💧 Vous buvez et regagnez {self.heal} points de soif.")
         elif self.type == "quest":
             print("🎁 Cet objet semble précieux...")
         else:
