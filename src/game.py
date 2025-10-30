@@ -1,7 +1,7 @@
 import random
 from src.player import Player
 from src.activity import hunt, fish
-from src.room import create_dungeon
+from src.dungeon import create_dungeon
 
 def random_event(player):
     event = random.choice(["pluie", "fruit", "rencontre", "rien"])
