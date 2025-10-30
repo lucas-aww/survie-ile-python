@@ -3,7 +3,7 @@ from src.ascii_art import HUNT_ART, FISH_ART
 
 def hunt(player):
     if not player.current_room.can_hunt:
-        print("🚫 Vous ne pouvez pas chasser ici.")
+        print(" Vous ne pouvez pas chasser ici.")
         return
     print(HUNT_ART)
     success = randint(0, 1)
@@ -16,7 +16,7 @@ def hunt(player):
 
 def fish(player):
     if not player.current_room.can_fish:
-        print("🚫 Vous ne pouvez pas pêcher ici.")
+        print(" Vous ne pouvez pas pêcher ici.")
         return
     print(FISH_ART)
     success = randint(0, 1)

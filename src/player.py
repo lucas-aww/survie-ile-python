@@ -32,9 +32,9 @@ class Player:
 
     def rest(self):
         if self.faim < 50:
-            print("🚫 Vous êtes trop affamé pour vous reposer !")
+            print(" Vous êtes trop affamé pour vous reposer !")
             return False
-        print("💤 Vous vous reposez et réduisez votre fatigue.")
+        print(" Vous vous reposez et réduisez votre fatigue.")
         self.fatigue -= 30
         self.fatigue = max(0, self.fatigue)
         self.next_day()
