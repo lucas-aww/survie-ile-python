@@ -9,8 +9,9 @@ class Player:
         self.fatigue = 30
         self.jour = 1
         self.inventaire = []
-        self.position = None  # Défini dans game
         self.vivant = True
+        self.current_room = None  
+        
 
     def clear_screen(self):
         os.system('cls' if os.name == 'nt' else 'clear')
