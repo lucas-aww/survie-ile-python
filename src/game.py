@@ -1,5 +1,6 @@
 from src.player import Player
 from src.dungeon import create_dungeon
+from src.activity import hunt, fish
 
 def start_game():
     player = Player()
@@ -9,7 +10,8 @@ def start_game():
     current_room.show_info()
 
     while player.pv > 0:
-        action = input("\nQue voulez-vous faire ? (aller / utiliser / quitter) : ").lower()
+        player.show_stats()
+        action = input("\nQue voulez-vous faire ? (aller / utiliser / chasser / pecher / quitter) : ").lower()
 
         if action == "aller":
             direction = input("Direction ? (nord / sud / est / ouest) : ").lower()
@@ -18,15 +20,18 @@ def start_game():
                 current_room.show_info()
             else:
                 print("🚫 Impossible d'aller par là.")
+            player.decrease_stats()
 
         elif action == "utiliser":
             item_name = input("Quel objet ? ")
-            for item in player.inventory:
-                if item.name.lower() == item_name.lower():
-                    item.use(player)
-                    break
-            else:
-                print("❌ Objet introuvable dans votre inventaire.")
+            player.use_item(item_name)
+            player.decrease_stats()
+
+        elif action == "chasser":
+            hunt(player)
+
+        elif action == "pecher":
+            fish(player)
 
         elif action == "quitter":
             print("👋 Vous quittez le donjon.")
@@ -35,13 +40,10 @@ def start_game():
         else:
             print("Commande inconnue.")
 
-        # Combat automatique si ennemis présents
-        for enemy in current_room.enemies:
-            if not enemy.is_dead():
-                enemy.attack(player)
-                if player.pv <= 0:
-                    print("💀 Vous êtes mort. Défaite.")
-                    return
+        # Vérifie la mort du joueur
+        if player.pv <= 0:
+            print("💀 Vous êtes mort. Défaite.")
+            return
 
         # Condition de victoire
         if current_room == treasure_room:

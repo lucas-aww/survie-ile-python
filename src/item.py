@@ -1,14 +1,21 @@
 class Item:
-    def __init__(self, name, type_, value=0):
+    def __init__(self, name, type, heal=0):
         self.name = name
-        self.type = type_
-        self.value = value
+        self.type = type
+        self.heal = heal
 
     def use(self, player):
         if self.type == "potion":
-            player.heal(self.value)
-            print(f"{player.name} utilise une potion et récupère {self.value} PV !")
-        elif self.type == "weapon":
-            print(f"{player.name} brandit {self.name} avec détermination.")
+            player.pv += self.heal
+            print(f"🧪 Vous buvez une potion et regagnez {self.heal} PV !")
+        elif self.type == "food":
+            player.faim += self.heal
+            player.fatigue -= 10
+            print(f"🍖 Vous mangez {self.name} et regagnez {self.heal} points de faim.")
+        elif self.type == "drink":
+            player.soif += self.heal
+            print(f"💧 Vous buvez et regagnez {self.heal} points de soif.")
         elif self.type == "quest":
-            print(f"{player.name} contemple le {self.name}.")
+            print("🎁 Cet objet semble précieux...")
+        else:
+            print("❌ Vous ne pouvez pas utiliser cet objet.")
