@@ -19,4 +19,13 @@ Atteindre la **Salle du Trésor** et récupérer le **Trésor Sacré** sans mour
 
 ## 🚀 Lancement
 ```bash
+
 python main.py
+# 🧭 Workflow Git - Projet Donjon du Trésor Sacré
+
+## ⚙️ Initialisation
+```bash
+git init
+git add .
+git commit -m "chore: initialisation du projet"
+git branch -M main
