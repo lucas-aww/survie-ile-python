@@ -1,19 +1,22 @@
 class Room:
-    def __init__(self, name, description):
+    def __init__(self, name, description, can_hunt=False, can_fish=False):
         self.name = name
         self.description = description
         self.connections = {}
         self.items = []
-        self.enemies = []
+        self.can_hunt = can_hunt
+        self.can_fish = can_fish
 
     def connect(self, direction, room):
         self.connections[direction] = room
 
     def show_info(self):
-        print(f"\n📍 Vous êtes dans {self.name}")
+        print(f"\n Vous êtes dans {self.name}")
         print(self.description)
         if self.items:
             print("Objets présents :", ", ".join([i.name for i in self.items]))
-        if self.enemies:
-            print("Ennemis :", ", ".join([e.name for e in self.enemies]))
         print("Sorties :", ", ".join(self.connections.keys()))
+        if self.can_hunt:
+            print(" Ici, vous pouvez chasser.")
+        if self.can_fish:
+            print(" Ici, vous pouvez pêcher.")
