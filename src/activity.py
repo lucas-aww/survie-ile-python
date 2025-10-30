@@ -1,28 +1,28 @@
-import random
-from src.item import Item
+from random import randint
+from src.ascii_art import HUNT_ART, FISH_ART
 
-def hunt(player, current_room):
-    if not current_room.can_hunt:
-        print(" Vous ne pouvez pas chasser ici.")
+def hunt(player):
+    if not player.current_room.can_hunt:
+        print("🚫 Vous ne pouvez pas chasser ici.")
         return
-    print(" Vous partez chasser...")
-    if random.random() < 0.6:
-        meat = Item("Viande", "food", heal=20)
-        player.add_item(meat)
-        print(" Vous avez chassé avec succès et obtenu de la viande !")
+    print(HUNT_ART)
+    success = randint(0, 1)
+    if success:
+        print("Vous avez chassé avec succès ! Faim +20")
+        player.faim += 20
     else:
-        print(" Vous etes trop nul. hahaha...")
-    player.decrease_stats()
+        print("Vous n'avez rien attrapé.")
+    player.faim = min(player.faim, 100)
 
-def fish(player, current_room):
-    if not current_room.can_fish:
-        print(" Vous ne pouvez pas pêcher ici.")
+def fish(player):
+    if not player.current_room.can_fish:
+        print("🚫 Vous ne pouvez pas pêcher ici.")
         return
-    print(" Vous tentez de pêcher...")
-    if random.random() < 0.5:
-        fish_item = Item("Poisson", "food", heal=15)
-        player.add_item(fish_item)
-        print(" Vous avez attrapé un poisson !")
+    print(FISH_ART)
+    success = randint(0, 1)
+    if success:
+        print("Vous avez pêché un poisson ! Faim +15")
+        player.faim += 15
     else:
-        print(" Rien hahaha...")
-    player.decrease_stats()
+        print("Vous n'avez rien attrapé.")
+    player.faim = min(player.faim, 100)
