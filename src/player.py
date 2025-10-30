@@ -46,3 +46,19 @@ class Player:
                 f"Soif : +15 (actuel: {self.soif}), "
                 f"Énergie : -10 (actuel: {self.energie})"
             )
+
+
+    def is_game_over(self):
+        """
+        Vérifie si le jeu est terminé en raison de jauges critiques.
+        """
+        if self.faim >= 100:
+            print("\nGAME OVER : Vous êtes mort de faim !")
+            return True
+        if self.soif >= 100:
+            print("\nGAME OVER : Vous êtes mort de déshydratation !")
+            return True
+        if self.energie <= 0:
+            print("\nGAME OVER : Vous êtes mort d'épuisement !")
+            return True
+        return False
